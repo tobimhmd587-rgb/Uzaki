@@ -30,7 +30,7 @@ body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background
 .srow{display:flex;gap:10px;align-items:center;padding:9px 10px;border-radius:10px;cursor:pointer}
 .srow:hover{background:var(--panel2)}
 .sname{font-size:14px;font-weight:600}
-.ssub{font-size:11px;color:var(--muted);max-width:170px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ssub{font-size:11px;color:var(--muted);max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .side-empty{color:var(--muted);font-size:13px;text-align:center;padding:24px 10px;line-height:1.6}
 .main{flex:1;display:flex;flex-direction:column;min-width:0}
 .page-head{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--border)}
@@ -46,9 +46,12 @@ body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background
 .empty-emoji{font-size:46px}
 .empty h3{color:var(--text)}
 .empty .btn{margin-top:6px}
-.avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;overflow:hidden}
 .avatar.big{width:58px;height:58px;font-size:30px}
 .avatar.sm2{width:26px;height:26px;font-size:14px}
+.avimg{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.bigpick{width:78px;height:78px;border-radius:50%;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:38px;cursor:pointer;overflow:hidden;border:2px dashed var(--border);background:var(--panel2)}
+.bigpick:hover{border-color:var(--accent)}
 .chat-head{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--border);background:var(--panel)}
 .ch-title{flex:1;min-width:0}
 .ch-title small{display:block;color:var(--muted);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -61,6 +64,8 @@ body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background
 .row.user .bubble{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-bottom-right-radius:4px}
 .row:not(.user) .bubble{border-top-left-radius:4px}
 .who{font-size:11px;font-weight:700;color:var(--muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:.4px}
+.delx{opacity:.35;font-size:11px;color:var(--muted);background:none;border:none;cursor:pointer;padding:4px 2px;align-self:flex-start}
+.subtxt{font-size:10px;color:var(--muted);margin-top:3px}
 .dots i{display:inline-block;width:5px;height:5px;background:var(--muted);border-radius:50%;margin:0 1.5px;animation:blink 1s infinite}
 .dots i:nth-child(2){animation-delay:.2s}.dots i:nth-child(3){animation-delay:.4s}
 @keyframes blink{0%,80%,100%{opacity:.25}40%{opacity:1}}
@@ -70,20 +75,21 @@ body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background
 .send{width:44px;height:44px;border-radius:50%;padding:0;font-size:17px;flex-shrink:0}
 .overlay{position:fixed;inset:0;background:rgba(5,7,12,.7);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:50;padding:16px}
 .overlay.show{display:flex}
-.modal{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:22px;width:100%;max-width:520px;max-height:88vh;overflow-y:auto}
+.modal{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:22px;width:100%;max-width:540px;max-height:88vh;overflow-y:auto}
 .modal h2{margin-bottom:14px;font-size:18px}
 .modal input,.modal textarea,.modal select{width:100%;background:var(--panel2);border:1px solid var(--border);border-radius:10px;color:var(--text);padding:10px 12px;font:inherit;margin-bottom:10px;outline:none}
 .modal input:focus,.modal textarea:focus,.modal select:focus{border-color:var(--accent)}
 .modal textarea{min-height:70px;resize:vertical}
-.flabel{font-size:12px;color:var(--muted);margin:4px 0 6px;font-weight:600}
+.flabel{font-size:12px;color:var(--muted);margin:8px 0 6px;font-weight:600}
 .mrow{display:flex;justify-content:flex-end;gap:8px;margin-top:6px}
-.hint{font-size:12px;color:var(--muted);line-height:1.5}
+.hint{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:10px}
 .emoji-grid{display:grid;grid-template-columns:repeat(9,1fr);gap:4px;margin-bottom:12px}
 .eg{background:var(--panel2);border:1px solid transparent;border-radius:8px;font-size:18px;padding:6px 0;cursor:pointer}
 .eg.sel{border-color:var(--accent);background:rgba(124,92,255,.15)}
-.picklist{max-height:200px;overflow-y:auto;border:1px solid var(--border);border-radius:10px;padding:6px;margin-bottom:12px}
+.picklist{max-height:220px;overflow-y:auto;border:1px solid var(--border);border-radius:10px;padding:6px;margin-bottom:12px}
 .pickrow{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:8px;cursor:pointer;font-size:14px}
 .pickrow:hover{background:var(--panel2)}
+.chk{accent-color:var(--accent);width:16px;height:16px}
 .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:#262b3a;border:1px solid var(--border);color:var(--text);padding:10px 18px;border-radius:12px;font-size:13px;opacity:0;pointer-events:none;transition:.25s;z-index:99;max-width:90%}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .menu-btn{display:none}
@@ -117,21 +123,24 @@ body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background
 const $=s=>document.querySelector(s);
 const COLORS=['#7c5cff','#ff5c8a','#00c2a8','#ff9f43','#4dabf7','#e64980','#20c997','#fab005','#845ef7','#ff6b6b'];
 const EMOJIS=['🦊','🐺','🐱','🦁','🐉','🧛','🧙','👻','👽','🤖','🦸','🧚','🧜','🦄','🌙','⭐','⚡','🔥','🌊','🌸','🗡️','👑','💀','🎭','🎀','🧿'];
-let pickedEmoji='🙂';
+let pickedEmoji='🙂',pendingAvatar=null;
 let DB=Object.assign({characters:[],chats:[],settings:{}},JSON.parse(localStorage.getItem('uzaki_data')||'null')||{});
-DB.settings=Object.assign({provider:'none',apiKey:'',model:''},DB.settings);
+DB.settings=Object.assign({provider:'horde',userName:'You',hordeKey:'0000000000',hordeModel:'auto',hordeNsfw:true,geminiKey:'',geminiModel:'gemini-2.0-flash',openaiKey:''},DB.settings);
 let state={tab:'chars',view:{t:'chars'}};
 
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const escRe=s=>String(s).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 const getChar=id=>DB.characters.find(c=>c.id===id);
 const getChat=id=>DB.chats.find(c=>c.id===id);
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const save=()=>localStorage.setItem('uzaki_data',JSON.stringify(DB));
 function colorFor(n){let h=0;for(const c of(n||''))h=(h*31+c.charCodeAt(0))>>>0;return COLORS[h%COLORS.length]}
 function memberNames(chat){return chat.members.map(getChar).filter(Boolean).map(c=>c.name).join(', ')}
+function avatarHTML(c,cls){if(c.avatar)return '<div class="avatar '+cls+'"><img src="'+c.avatar+'" class="avimg" alt=""></div>';
+ return '<div class="avatar '+cls+'" style="background:'+colorFor(c.name)+'">'+(c.emoji||'🙂')+'</div>'}
 let toastTimer;
-function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),3000)}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),3500)}
 function modal(h){$('#overlay').classList.add('show');$('#modal').innerHTML=h}
 function closeModal(){$('#overlay').classList.remove('show')}
 
@@ -146,14 +155,13 @@ function renderSidebar(){
  if(state.tab==='chars'){
   l.innerHTML=DB.characters.length?DB.characters.map(c=>`
    <div class="srow" data-act="quick-chat" data-id="${c.id}">
-    <div class="avatar" style="background:${colorFor(c.name)}">${c.emoji}</div>
-    <div><div class="sname">${esc(c.name)}</div><div class="ssub">${esc(c.tagline||'')}</div></div></div>`).join('')
+    ${avatarHTML(c,'')}<div><div class="sname">${esc(c.name)}</div><div class="ssub">${esc(c.tagline||'')}</div></div></div>`).join('')
   :`<div class="side-empty">No characters yet.<br>Create one to begin.</div>`;
  }else{
   l.innerHTML=DB.chats.length?DB.chats.map(c=>{
    const last=c.messages[c.messages.length-1];
-   return `<div class="srow" data-act="open-chat" data-id="${c.id}">
-    <div class="avatar" style="background:${c.type==='group'?'#2a2f40':colorFor(c.name)}">${c.type==='group'?'👥':(c.emoji||'💬')}</div>
+   const a=c.type==='group'?'<div class="avatar" style="background:#2a2f40">👥</div>':avatarHTML(getChar(c.members[0])||{name:c.name,emoji:'💬'},'');
+   return `<div class="srow" data-act="open-chat" data-id="${c.id}">${a}
     <div><div class="sname">${esc(c.name)}</div><div class="ssub">${last?esc(last.text.slice(0,42)):'New chat'}</div></div></div>`}).join('')
   :`<div class="side-empty">No chats yet.<br>Pick a character or make a group.</div>`;}}
 
@@ -166,7 +174,7 @@ function renderCharsView(){
    <button class="btn btn-primary sm" data-act="new-char">＋ New Character</button></div>
   ${cs.length?`<div class="grid">${cs.map(c=>`
    <div class="card">
-    <div class="avatar big" style="background:${colorFor(c.name)}">${c.emoji}</div>
+    ${avatarHTML(c,'big')}
     <div class="cname">${esc(c.name)}</div>
     <div class="ctag">${esc(c.tagline||'Roleplay character')}</div>
     <div class="crow">
@@ -184,6 +192,7 @@ function renderChatView(id){
   <div class="chat-head">
    <button class="icon-btn menu-btn" data-act="menu">☰</button>
    <div class="ch-title"><b>${esc(chat.name)}</b><small>${chat.type==='group'?esc(memberNames(chat)||'group'):'1-on-1 chat'}</small></div>
+   <button class="icon-btn" data-act="regen" title="Regenerate last reply">↻</button>
    <button class="icon-btn" data-act="del-chat" data-id="${chat.id}">🗑</button>
    <button class="icon-btn" data-act="back">←</button></div>
   <div class="messages" id="messages"></div>
@@ -196,10 +205,12 @@ function renderChatView(id){
 
 function renderMessages(chat){
  const box=$('#messages');if(!box)return;
- box.innerHTML=chat.messages.map(m=>m.role==='user'
-  ?`<div class="row user"><div class="bubble">${esc(m.text)}</div></div>`
-  :`<div class="row"><div class="avatar" style="background:${colorFor(m.name)}">${m.emoji||'🙂'}</div>
-     <div class="bubble"><div class="who">${esc(m.name)}</div>${esc(m.text)}</div></div>`).join('');
+ box.innerHTML=chat.messages.map((m,i)=>{
+  if(m.role==='user')return `<div class="row user"><button class="delx" data-act="del-msg" data-i="${i}">✕</button><div class="bubble">${esc(m.text)}</div></div>`;
+  const ch=m.charId?getChar(m.charId):null;
+  const av=(ch&&(ch.avatar||ch.emoji))?avatarHTML(ch,''):'<div class="avatar" style="background:'+colorFor(m.name)+'">'+(m.emoji||'🙂')+'</div>';
+  return `<div class="row">${av}<div class="bubble"><div class="who">${esc(m.name)}</div>${esc(m.text)}</div>
+   <button class="delx" data-act="del-msg" data-i="${i}">✕</button></div>`}).join('');
  box.scrollTop=box.scrollHeight}
 
 /* ---------- CHAT LOGIC ---------- */
@@ -207,7 +218,7 @@ function openSingleChat(cid){
  const ch=getChar(cid);if(!ch)return;
  let chat=DB.chats.find(c=>c.type==='single'&&c.members[0]===cid);
  if(!chat){
-  chat={id:uid(),type:'single',name:ch.name,emoji:ch.emoji,members:[cid],messages:[]};
+  chat={id:uid(),type:'single',name:ch.name,members:[cid],messages:[]};
   if(ch.greeting)chat.messages.push({role:'char',charId:cid,name:ch.name,emoji:ch.emoji,text:ch.greeting,time:Date.now()});
   DB.chats.unshift(chat);save()}
  $('#sidebar').classList.remove('open');
@@ -224,11 +235,13 @@ function send(){
 
 function pickResponders(chat,text){
  if(chat.type==='single')return[chat.members[0]];
- const lower=text.toLowerCase();
+ const lower=' '+text.toLowerCase()+' ';
  const mentioned=chat.members.filter(id=>{const c=getChar(id);return c&&lower.includes(c.name.toLowerCase())});
  if(mentioned.length)return mentioned.slice(0,2);
+ const last=chat.messages[chat.messages.length-1];
+ if(last&&last.role==='char'&&last.charId&&Math.random()<.5)return[last.charId];
  const pool=[...chat.members].sort(()=>Math.random()-.5);
- return pool.slice(0,Math.random()<.6?1:2)}
+ return pool.slice(0,Math.random()<.65?1:2)}
 
 async function respondSequence(chat,ids,i,userText){
  if(i>=ids.length)return;
@@ -237,18 +250,21 @@ async function respondSequence(chat,ids,i,userText){
  showTyping(ch);
  let reply;
  try{reply=await aiReply(chat,ch,userText)}
- catch(err){reply=demoReply(ch,userText);toast('AI connection failed — used built-in reply ('+err.message+')')}
+ catch(err){reply=demoReply(ch,userText);
+  toast('AI unavailable ('+err.message+') — offline reply shown. Try again or check Settings.')}
  hideTyping();
- chat.messages.push({role:'char',charId:ch.id,name:ch.name,emoji:ch.emoji,text:reply,time:Date.now()});
- save();
+ if(reply&&reply.trim()){
+  chat.messages.push({role:'char',charId:ch.id,name:ch.name,emoji:ch.emoji,text:reply.trim(),time:Date.now()});
+  save()}
  if(state.view.t==='chat'&&state.view.id===chat.id)renderMessages(chat);
  respondSequence(chat,ids,i+1,userText)}
 
 function showTyping(ch){
  const box=$('#messages');if(!box)return;
+ hideTyping();
  const d=document.createElement('div');d.className='row';d.id='typing';
- d.innerHTML=`<div class="avatar" style="background:${colorFor(ch.name)}">${ch.emoji}</div>
-  <div class="bubble"><div class="who">${esc(ch.name)}</div><span class="dots"><i></i><i></i><i></i></span></div>`;
+ const status=DB.settings.provider==='horde'?'free AI queue — 30s to 2 min…':'thinking…';
+ d.innerHTML=avatarHTML(ch,'')+'<div class="bubble"><div class="who">'+esc(ch.name)+'</div><span class="dots"><i></i><i></i><i></i></span><div class="subtxt">'+status+'</div></div>';
  box.appendChild(d);box.scrollTop=box.scrollHeight}
 function hideTyping(){const t=$('#typing');if(t)t.remove()}
 
@@ -257,67 +273,116 @@ function demoReply(ch,userText){
  const t=(userText||'').trim();
  if(!t)return "Well? Don't go quiet on me now.";
  const topic=t.length>50?t.slice(0,47)+'…':t;
- const T=[
-  `${topic}? Now that's interesting — tell me more.`,
-  `Hmm, I hear you. ${topic}... let me think about that for a sec.`,
-  `You brought up ${topic}? Funny, I was just thinking about something like that.`,
-  `Okay but what's the story behind ${topic}? I need details.`,
+ const T=[`${topic}? Now that's interesting — tell me more.`,
+  `Hmm, ${topic}... let me think about that.`,
+  `Okay but what's the story behind ${topic}? Details.`,
   `I like where your head's at. So — ${topic}, huh?`,
-  `That's a take. Let me ask you this though: why ${topic}?`,
-  `Ha! You always come to me with the good stuff. ${topic} it is.`,
-  `Alright, I'm listening. Say more about ${topic}.`,
-  `Interesting... and how does that make you feel?`,
-  `Look, ${topic} is serious business. Luckily, so am I.`,
-  `You know me — I could talk about ${topic} all day.`,
-  `Ooh. Say that again but slower. ...Okay, now explain ${topic} properly.`];
+  `Alright, I'm listening. Say more about ${topic}.`];
  return T[Math.floor(Math.random()*T.length)]}
 
 function systemPrompt(chat,ch){
- const others=chat.members.filter(x=>x!==ch.id).map(x=>getChar(x)?.name).filter(Boolean);
- let p=`You are "${ch.name}" in a roleplay chat.`;
- if(ch.personality)p+=` Your personality: ${ch.personality}.`;
- p+=chat.type==='group'
-  ?` You are in a group chat with ${others.join(', ')} and the user. Only speak as ${ch.name}, keep it natural.`
-  :` You are chatting one-on-one with the user.`;
- p+=` Stay fully in character. Keep replies short (1-4 sentences). Never mention being an AI.`;
- return p}
+ const u=DB.settings.userName||'You';
+ const L=[`You are ${ch.name}, a character in an immersive roleplay chat with a human user named "${u}".`];
+ if(ch.personality)L.push(`${ch.name}'s personality: ${ch.personality}`);
+ if(ch.tagline)L.push(`About ${ch.name}: ${ch.tagline}`);
+ if(chat.type==='group'){
+  const others=chat.members.filter(x=>x!==ch.id).map(x=>getChar(x)).filter(Boolean).map(c=>c.name);
+  L.push(`This is a group chat. Other characters present: ${others.join(', ')}. Only write ${ch.name}'s words and actions — never write for ${u} or the others.`)}
+ else L.push(`Chat one-on-one with ${u}. Never write ${u}'s lines or thoughts.`);
+ L.push('Stay fully in character. Keep replies 1-4 sentences. Use *asterisks* for actions and feelings. Keep continuity with the conversation. Never mention being an AI.');
+ return L.join('\n')}
 
 async function aiReply(chat,ch,userText){
  const s=DB.settings;
- if(s.provider==='none'||!s.apiKey){await sleep(500+Math.random()*1000);return demoReply(ch,userText)}
- const sys=systemPrompt(chat,ch);
- const ctx=chat.messages.slice(-20).map(m=>m.role==='user'
-  ?{role:'user',text:m.text}
-  :{role:'model',text:(chat.type==='group'?m.name+': ':'')+m.text});
- if(s.provider==='openai'){
-  const r=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',
-   headers:{'Content-Type':'application/json','Authorization':'Bearer '+s.apiKey},
-   body:JSON.stringify({model:s.model||'gpt-4o-mini',
-    messages:[{role:'system',content:sys},...ctx.map(m=>({role:m.role==='user'?'user':'assistant',content:m.text}))]})});
-  if(!r.ok)throw new Error('HTTP '+r.status);
-  const d=await r.json();return d.choices[0].message.content.trim()}
- if(s.provider==='gemini'){
-  const model=s.model||'gemini-2.0-flash';
-  const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(s.apiKey)}`,
-   {method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({systemInstruction:{parts:[{text:sys}]},
-     contents:ctx.map(m=>({role:m.role,parts:[{text:m.text}]}))})});
-  if(!r.ok){const e=await r.json().catch(()=>null);throw new Error(e?.error?.message||('HTTP '+r.status))}
-  const d=await r.json();
-  const t=d.candidates?.[0]?.content?.parts?.map(p=>p.text||'').join('')||'';
-  if(!t)throw new Error('Empty response');
-  return t.trim()}
+ if(s.provider==='horde')return hordeReply(chat,ch);
+ if(s.provider==='gemini')return geminiReply(chat,ch);
+ if(s.provider==='openai')return openaiReply(chat,ch);
+ await sleep(600+Math.random()*900);
  return demoReply(ch,userText)}
+
+/* --- AI Horde: free + uncensored --- */
+async function hordeReply(chat,ch){
+ const s=DB.settings,u=s.userName||'You';
+ let p='';
+ if(chat.type==='group'){
+  for(const id of chat.members){const c=getChar(id);if(c)p+=(c.name)+"'s personality: "+(c.personality||'a friendly roleplay character')+'\n'}
+ }else{
+  p+=ch.name+"'s personality: "+(ch.personality||'a friendly roleplay character')+'\n';
+  if(ch.tagline)p+='Scenario: '+ch.tagline+'\n'}
+ p+='\n<START>\n';
+ for(const m of chat.messages.slice(-20)){
+  p+=(m.role==='user'?u:m.name)+': '+m.text+'\n'}
+ p+=ch.name+':';
+ const body={prompt:p,
+  params:{max_length:200,max_context_length:1024,temperature:.85,top_p:.92,rep_pen:1.1,rep_pen_range:512,
+   stop_sequence:['\n'+u+':','\n<START>']},
+  nsfw:!!s.hordeNsfw,shared:false};
+ if(s.hordeModel&&s.hordeModel!=='auto')body.models=[s.hordeModel];
+ const r=await fetch('https://aihorde.net/api/v2/generate/text/async',{method:'POST',
+  headers:{'Content-Type':'application/json','apikey':s.hordeKey||'0000000000'},
+  body:JSON.stringify(body)});
+ if(!r.ok){const e=await r.json().catch(()=>({message:'HTTP '+r.status}));throw new Error(e.message||'Horde '+r.status)}
+ const {id}=await r.json();
+ const t0=Date.now();
+ while(Date.now()-t0<150000){
+  await sleep(3000);
+  const st=await fetch('https://aihorde.net/api/v2/generate/text/status/'+id);
+  if(!st.ok)throw new Error('Horde '+st.status);
+  const d=await st.json();
+  if(d.is_possible===false)throw new Error('no workers online');
+  if(d.faulted)throw new Error('worker faulted');
+  if(d.done&&d.generations&&d.generations[0]){
+   let t=(d.generations[0].text||'').replace(/\r/g,'').trim();
+   t=t.replace(new RegExp('^'+escRe(ch.name)+'\\s*:\\s*','i'),'');
+   const names=[u,...chat.members.map(x=>getChar(x)).filter(Boolean).map(c=>c.name)];
+   const cut=new RegExp('\\n\\s*('+names.map(escRe).join('|')+')\\s*:','i').exec(t);
+   if(cut)t=t.slice(0,cut.index);
+   t=t.replace(/\n{3,}/g,'\n\n').trim();
+   if(!t)throw new Error('empty reply');
+   return t}}
+ throw new Error('queue timeout')}
+
+/* --- Gemini: free, smart, safe-filtered --- */
+async function geminiReply(chat,ch){
+ const s=DB.settings,u=s.userName||'You';
+ const sys=systemPrompt(chat,ch);
+ const contents=chat.messages.slice(-20).map(m=>({role:m.role==='user'?'user':'model',
+  parts:[{text:(chat.type==='group'&&m.role!=='user'?m.name+': ':'')+m.text}]}));
+ const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${s.geminiModel||'gemini-2.0-flash'}:generateContent?key=${encodeURIComponent(s.geminiKey)}`,
+  {method:'POST',headers:{'Content-Type':'application/json'},
+   body:JSON.stringify({systemInstruction:{parts:[{text:sys}]},contents})});
+ if(!r.ok){const e=await r.json().catch(()=>null);throw new Error(e?.error?.message||'Gemini '+r.status)}
+ const d=await r.json();
+ const t=d.candidates?.[0]?.content?.parts?.map(p=>p.text||'').join('')||'';
+ if(!t)throw new Error('empty reply');
+ return t.trim()}
+
+/* --- OpenAI (optional) --- */
+async function openaiReply(chat,ch){
+ const s=DB.settings,u=s.userName||'You';
+ const sys=systemPrompt(chat,ch);
+ const msgs=[{role:'system',content:sys},...chat.messages.slice(-20).map(m=>({role:m.role==='user'?'user':'assistant',
+  content:(chat.type==='group'&&m.role!=='user'?m.name+': ':'')+m.text}))];
+ const r=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',
+  headers:{'Content-Type':'application/json','Authorization':'Bearer '+s.openaiKey},
+  body:JSON.stringify({model:'gpt-4o-mini',messages:msgs})});
+ if(!r.ok)throw new Error('OpenAI '+r.status);
+ const d=await r.json();return d.choices[0].message.content.trim()}
 
 /* ---------- MODALS ---------- */
 function openCharModal(id){
  const c=id?getChar(id):null;
- pickedEmoji=c?c.emoji:EMOJIS[Math.floor(Math.random()*EMOJIS.length)];
+ pickedEmoji=c?(c.emoji||'🙂'):EMOJIS[Math.floor(Math.random()*EMOJIS.length)];
+ pendingAvatar=c?(c.avatar||null):null;
+ const prev=pendingAvatar?'<img src="'+pendingAvatar+'" class="avimg" alt="">':pickedEmoji;
  modal(`<h2>${c?'Edit Character':'New Character'}</h2>
+  <div class="bigpick" id="avPrev" data-act="choose-img" title="Tap to upload a picture">${prev}</div>
+  <input type="file" id="imgFile" accept="image/*" hidden>
+  <p class="hint">Tap the circle to upload a picture (cropped to a circle). Or pick an emoji fallback below.</p>
   <div class="emoji-grid">${EMOJIS.map(e=>`<button class="eg ${e===pickedEmoji?'sel':''}" data-act="pick-emoji" data-emoji="${e}">${e}</button>`).join('')}</div>
   <input id="cName" placeholder="Name *" value="${c?esc(c.name):''}">
   <input id="cTag" placeholder="Tagline — one line about them" value="${c?esc(c.tagline||''):''}">
-  <textarea id="cPers" placeholder="Personality — how do they act, talk? What do they like?">${c?esc(c.personality||''):''}</textarea>
+  <textarea id="cPers" placeholder="Personality — how do they act, talk? What do they like? The more detail, the better they roleplay.">${c?esc(c.personality||''):''}</textarea>
   <textarea id="cGreet" placeholder="Their first message when a chat starts">${c?esc(c.greeting||''):''}</textarea>
   <div class="mrow"><button class="btn btn-ghost" data-act="close-modal">Cancel</button>
   <button class="btn btn-primary" data-act="save-char" data-id="${c?c.id:''}">Save</button></div>`)}
@@ -325,7 +390,7 @@ function openCharModal(id){
 function saveChar(id){
  const name=$('#cName').value.trim();
  if(!name){toast('Give your character a name!');return}
- const data={name,emoji:pickedEmoji,tagline:$('#cTag').value.trim(),
+ const data={name,emoji:pickedEmoji,avatar:pendingAvatar,tagline:$('#cTag').value.trim(),
   personality:$('#cPers').value.trim(),greeting:$('#cGreet').value.trim()};
  if(id)Object.assign(getChar(id),data);
  else DB.characters.push({id:uid(),...data});
@@ -337,8 +402,8 @@ function openGroupModal(){
   <input id="gName" placeholder="Group name (e.g. The Tavern)">
   <p class="flabel">Pick members (2 or more):</p>
   <div class="picklist">${DB.characters.map(c=>`
-   <label class="pickrow"><input type="checkbox" value="${c.id}">
-   <span class="avatar sm2" style="background:${colorFor(c.name)}">${c.emoji}</span>${esc(c.name)}</label>`).join('')}</div>
+   <label class="pickrow"><input type="checkbox" value="${c.id}" class="chk">
+   ${avatarHTML(c,'sm2')}${esc(c.name)}</label>`).join('')}</div>
   <div class="mrow"><button class="btn btn-ghost" data-act="close-modal">Cancel</button>
   <button class="btn btn-primary" data-act="create-group">Create Group</button></div>`)}
 
@@ -353,19 +418,40 @@ function createGroup(){
  $('#sidebar').classList.remove('open');
  state.view={t:'chat',id:chat.id};render()}
 
+async function loadHordeModels(){
+ const sel=$('#sHModel');if(!sel)return;
+ sel.innerHTML='<option value="auto">Loading…</option>';
+ try{
+  const r=await fetch('https://aihorde.net/api/v2/status/models?type=text');
+  const list=await r.json();
+  list.sort((a,b)=>b.count-a.count);
+  sel.innerHTML='<option value="auto">Auto — any available model</option>'+
+   list.filter(m=>m.count>0).slice(0,40).map(m=>
+    `<option value="${esc(m.name)}"${m.name===DB.settings.hordeModel?' selected':''}>${esc(m.name)} (${m.count} online)</option>`).join('');
+ }catch(e){sel.innerHTML='<option value="auto">Could not load — Auto</option>'}}
+
 function openSettings(){
  const s=DB.settings;
  modal(`<h2>⚙ Settings</h2>
-  <p class="flabel">Character brains (100% optional)</p>
+  <input id="sUser" placeholder="Your name in chats" value="${esc(s.userName||'You')}">
+  <p class="flabel">AI engine</p>
   <select id="sProv">
-   <option value="none"${s.provider==='none'?' selected':''}>Built-in responses — zero setup</option>
-   <option value="openai"${s.provider==='openai'?' selected':''}>OpenAI — real AI</option>
-   <option value="gemini"${s.provider==='gemini'?' selected':''}>Google Gemini — real AI, free tier</option></select>
-  <input id="sKey" type="password" placeholder="API key (only if you chose a real AI)" value="${esc(s.apiKey||'')}">
-  <input id="sModel" placeholder="Model name (leave empty for default)" value="${esc(s.model||'')}">
-  <p class="hint">Uzaki works fully without any of this. If you ever want smarter replies, paste a key and the characters come alive — nothing else to set up.</p>
+   <option value="horde"${s.provider==='horde'?' selected':''}>AI Horde — free & uncensored (default)</option>
+   <option value="demo"${s.provider==='demo'?' selected':''}>Built-in offline replies (no internet)</option>
+   <option value="gemini"${s.provider==='gemini'?' selected':''}>Google Gemini — free, smart, blocks NSFW</option>
+   <option value="openai"${s.provider==='openai'?' selected':''}>OpenAI — paid, smart</option></select>
+  <p class="flabel">AI Horde options</p>
+  <input id="sHKey" placeholder="Horde API key (0000000000 = anonymous, works free)" value="${esc(s.hordeKey)}">
+  <select id="sHModel"></select>
+  <label class="pickrow"><input type="checkbox" id="sHNsfw" class="chk" ${s.hordeNsfw?'checked':''}> Allow NSFW (uncensored workers)</label>
+  <p class="hint">The Horde is a free volunteer network — replies can take 30s–2min. Want faster? Make a free account at aihorde.net and paste your personal key above.</p>
+  <p class="flabel">Gemini (optional — free key at aistudio.google.com/apikey)</p>
+  <input id="sGKey" type="password" placeholder="Gemini API key" value="${esc(s.geminiKey||'')}">
+  <p class="flabel">OpenAI (optional — paid)</p>
+  <input id="sOKey" type="password" placeholder="OpenAI API key" value="${esc(s.openaiKey||'')}">
   <div class="mrow"><button class="btn btn-ghost" data-act="close-modal">Cancel</button>
-  <button class="btn btn-primary" data-act="save-settings">Save</button></div>`)}
+  <button class="btn btn-primary" data-act="save-settings">Save</button></div>`);
+ loadHordeModels()}
 
 function deleteChar(id){
  const c=getChar(id);if(!c)return;
@@ -385,6 +471,14 @@ function deleteChat(id){
  if(state.view.t==='chat'&&state.view.id===id)state.view={t:'chars'};
  render();toast('Chat deleted.')}
 
+function regenLast(){
+ const chat=getChat(state.view.id);if(!chat)return;
+ const last=chat.messages[chat.messages.length-1];
+ if(!last||last.role!=='char'){toast('Nothing to regenerate.');return}
+ chat.messages.pop();save();renderMessages(chat);
+ const lu=[...chat.messages].reverse().find(m=>m.role==='user');
+ respondSequence(chat,pickResponders(chat,lu?lu.text:''),0,lu?lu.text:'')}
+
 /* ---------- EVENTS ---------- */
 document.addEventListener('click',e=>{
  const el=e.target.closest('[data-act]');if(!el)return;
@@ -402,20 +496,41 @@ document.addEventListener('click',e=>{
   case 'create-group':createGroup();break;
   case 'settings':openSettings();break;
   case 'save-settings':
-   DB.settings={provider:$('#sProv').value,apiKey:$('#sKey').value.trim(),model:$('#sModel').value.trim()};
+   DB.settings={provider:$('#sProv').value,userName:$('#sUser').value.trim()||'You',
+    hordeKey:$('#sHKey').value.trim()||'0000000000',hordeModel:$('#sHModel').value||'auto',
+    hordeNsfw:$('#sHNsfw').checked,geminiKey:$('#sGKey').value.trim(),geminiModel:'gemini-2.0-flash',
+    openaiKey:$('#sOKey').value.trim()};
    save();closeModal();toast('Settings saved.');break;
   case 'send':send();break;
+  case 'regen':regenLast();break;
   case 'tab-chars':state.tab='chars';render();break;
   case 'tab-chats':state.tab='chats';render();break;
   case 'pick-emoji':
    pickedEmoji=el.dataset.emoji;
-   document.querySelectorAll('.eg').forEach(b=>b.classList.toggle('sel',b.dataset.emoji===pickedEmoji));break;
+   document.querySelectorAll('.eg').forEach(b=>b.classList.toggle('sel',b.dataset.emoji===pickedEmoji));
+   if(!pendingAvatar)$('#avPrev').textContent=pickedEmoji;break;
+  case 'choose-img':$('#imgFile').click();break;
+  case 'del-msg':{const chat=getChat(state.view.id);if(chat){chat.messages.splice(+el.dataset.i,1);save();renderMessages(chat)}break}
   case 'close-modal':closeModal();break}});
 $('#overlay').addEventListener('click',e=>{if(e.target.id==='overlay')closeModal()});
+document.addEventListener('change',e=>{
+ if(e.target.id!=='imgFile')return;
+ const f=e.target.files[0];if(!f)return;
+ const r=new FileReader();
+ r.onload=ev=>{const img=new Image();
+  img.onload=()=>{const S=256,cv=document.createElement('canvas');cv.width=cv.height=S;
+   const g=cv.getContext('2d'),s=Math.min(img.width,img.height);
+   g.drawImage(img,(img.width-s)/2,(img.height-s)/2,s,s,0,0,S,S);
+   pendingAvatar=cv.toDataURL('image/jpeg',.85);
+   $('#avPrev').innerHTML='<img src="'+pendingAvatar+'" class="avimg" alt="">';
+   toast('Picture ready ✓')};
+  img.src=ev.target.result};
+ r.readAsDataURL(f);e.target.value=''});
 document.addEventListener('keydown',e=>{
  if(e.key==='Escape')closeModal();
  if(e.key==='Enter'&&e.target.id==='msgInput'&&!e.shiftKey){e.preventDefault();send()}});
 render();
 </script>
 </body>
-<
+</html>
+```
