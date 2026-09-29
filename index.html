@@ -1,0 +1,422 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uzaki — AI Roleplay Chat</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💬</text></svg>">
+<style>
+:root{--bg:#0f1117;--panel:#171a23;--panel2:#1e2230;--border:#2a2f40;--text:#e8eaf2;
+--muted:#8b90a5;--accent:#7c5cff;--accent2:#ff5c8a}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);height:100vh;overflow:hidden}
+.app{display:flex;height:100vh}
+.sidebar{width:270px;background:var(--panel);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0}
+.logo{padding:18px 18px 14px;font-size:24px;font-weight:800}
+.logo span{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.logo small{display:block;font-size:10px;color:var(--muted);font-weight:600;letter-spacing:2px;margin-top:2px}
+.side-actions{padding:0 12px 12px;display:flex;flex-direction:column;gap:8px}
+.btn{border:none;border-radius:10px;padding:11px 14px;font-size:14px;font-weight:600;cursor:pointer;transition:.15s;font-family:inherit}
+.btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff}
+.btn-primary:hover{filter:brightness(1.15)}
+.btn-ghost{background:var(--panel2);color:var(--text);border:1px solid var(--border)}
+.btn-ghost:hover{border-color:var(--accent)}
+.btn.sm{padding:7px 16px;font-size:13px}
+.tabs{display:flex;padding:0 12px;gap:6px;border-bottom:1px solid var(--border)}
+.tab{flex:1;text-align:center;padding:10px;color:var(--muted);cursor:pointer;font-weight:600;font-size:13px;border-bottom:2px solid transparent}
+.tab.active{color:var(--text);border-color:var(--accent)}
+.side-list{flex:1;overflow-y:auto;padding:10px}
+.srow{display:flex;gap:10px;align-items:center;padding:9px 10px;border-radius:10px;cursor:pointer}
+.srow:hover{background:var(--panel2)}
+.sname{font-size:14px;font-weight:600}
+.ssub{font-size:11px;color:var(--muted);max-width:170px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.side-empty{color:var(--muted);font-size:13px;text-align:center;padding:24px 10px;line-height:1.6}
+.main{flex:1;display:flex;flex-direction:column;min-width:0}
+.page-head{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--border)}
+.page-head h2{flex:1;font-size:19px}
+.count{color:var(--muted);font-size:13px;font-weight:500}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;padding:20px;overflow-y:auto;flex:1;align-content:start}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:18px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px}
+.card:hover{border-color:var(--accent)}
+.cname{font-weight:700}
+.ctag{color:var(--muted);font-size:12px;min-height:16px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.crow{display:flex;gap:6px;align-items:center;margin-top:4px}
+.empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:30px;text-align:center;color:var(--muted)}
+.empty-emoji{font-size:46px}
+.empty h3{color:var(--text)}
+.empty .btn{margin-top:6px}
+.avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.avatar.big{width:58px;height:58px;font-size:30px}
+.avatar.sm2{width:26px;height:26px;font-size:14px}
+.chat-head{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--border);background:var(--panel)}
+.ch-title{flex:1;min-width:0}
+.ch-title small{display:block;color:var(--muted);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.icon-btn{background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;padding:6px 8px;border-radius:8px}
+.icon-btn:hover{background:var(--panel2);color:var(--text)}
+.messages{flex:1;overflow-y:auto;padding:18px 16px}
+.row{display:flex;gap:10px;margin-bottom:12px;align-items:flex-start}
+.row.user{justify-content:flex-end}
+.bubble{background:var(--panel2);padding:10px 14px;border-radius:14px;max-width:72%;font-size:14.5px;line-height:1.5;white-space:pre-wrap;word-wrap:break-word}
+.row.user .bubble{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-bottom-right-radius:4px}
+.row:not(.user) .bubble{border-top-left-radius:4px}
+.who{font-size:11px;font-weight:700;color:var(--muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:.4px}
+.dots i{display:inline-block;width:5px;height:5px;background:var(--muted);border-radius:50%;margin:0 1.5px;animation:blink 1s infinite}
+.dots i:nth-child(2){animation-delay:.2s}.dots i:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,80%,100%{opacity:.25}40%{opacity:1}}
+.inputbar{display:flex;gap:10px;padding:12px 16px;border-top:1px solid var(--border);background:var(--panel);align-items:flex-end}
+#msgInput{flex:1;resize:none;background:var(--panel2);border:1px solid var(--border);border-radius:12px;color:var(--text);padding:11px 14px;font:inherit;max-height:120px;outline:none}
+#msgInput:focus{border-color:var(--accent)}
+.send{width:44px;height:44px;border-radius:50%;padding:0;font-size:17px;flex-shrink:0}
+.overlay{position:fixed;inset:0;background:rgba(5,7,12,.7);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:50;padding:16px}
+.overlay.show{display:flex}
+.modal{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:22px;width:100%;max-width:520px;max-height:88vh;overflow-y:auto}
+.modal h2{margin-bottom:14px;font-size:18px}
+.modal input,.modal textarea,.modal select{width:100%;background:var(--panel2);border:1px solid var(--border);border-radius:10px;color:var(--text);padding:10px 12px;font:inherit;margin-bottom:10px;outline:none}
+.modal input:focus,.modal textarea:focus,.modal select:focus{border-color:var(--accent)}
+.modal textarea{min-height:70px;resize:vertical}
+.flabel{font-size:12px;color:var(--muted);margin:4px 0 6px;font-weight:600}
+.mrow{display:flex;justify-content:flex-end;gap:8px;margin-top:6px}
+.hint{font-size:12px;color:var(--muted);line-height:1.5}
+.emoji-grid{display:grid;grid-template-columns:repeat(9,1fr);gap:4px;margin-bottom:12px}
+.eg{background:var(--panel2);border:1px solid transparent;border-radius:8px;font-size:18px;padding:6px 0;cursor:pointer}
+.eg.sel{border-color:var(--accent);background:rgba(124,92,255,.15)}
+.picklist{max-height:200px;overflow-y:auto;border:1px solid var(--border);border-radius:10px;padding:6px;margin-bottom:12px}
+.pickrow{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:8px;cursor:pointer;font-size:14px}
+.pickrow:hover{background:var(--panel2)}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:#262b3a;border:1px solid var(--border);color:var(--text);padding:10px 18px;border-radius:12px;font-size:13px;opacity:0;pointer-events:none;transition:.25s;z-index:99;max-width:90%}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.menu-btn{display:none}
+@media(max-width:760px){
+.menu-btn{display:block}
+.sidebar{position:fixed;z-index:30;left:0;top:0;bottom:0;transform:translateX(-105%);transition:.2s;box-shadow:8px 0 30px rgba(0,0,0,.5)}
+.sidebar.open{transform:none}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="sidebar" id="sidebar">
+    <div class="logo"><span>Uzaki</span><small>AI ROLEPLAY CHAT</small></div>
+    <div class="side-actions">
+      <button class="btn btn-primary" data-act="new-char">＋ New Character</button>
+      <button class="btn btn-ghost" data-act="new-group">👥 New Group Chat</button>
+      <button class="btn btn-ghost" data-act="settings">⚙ Settings</button>
+    </div>
+    <div class="tabs">
+      <div class="tab active" id="tabChars" data-act="tab-chars">Characters</div>
+      <div class="tab" id="tabChats" data-act="tab-chats">Chats</div>
+    </div>
+    <div class="side-list" id="sideList"></div>
+  </div>
+  <div class="main" id="main"></div>
+</div>
+<div class="overlay" id="overlay"><div class="modal" id="modal"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s);
+const COLORS=['#7c5cff','#ff5c8a','#00c2a8','#ff9f43','#4dabf7','#e64980','#20c997','#fab005','#845ef7','#ff6b6b'];
+const EMOJIS=['🦊','🐺','🐱','🦁','🐉','🧛','🧙','👻','👽','🤖','🦸','🧚','🧜','🦄','🌙','⭐','⚡','🔥','🌊','🌸','🗡️','👑','💀','🎭','🎀','🧿'];
+let pickedEmoji='🙂';
+let DB=Object.assign({characters:[],chats:[],settings:{}},JSON.parse(localStorage.getItem('uzaki_data')||'null')||{});
+DB.settings=Object.assign({provider:'none',apiKey:'',model:''},DB.settings);
+let state={tab:'chars',view:{t:'chars'}};
+
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const getChar=id=>DB.characters.find(c=>c.id===id);
+const getChat=id=>DB.chats.find(c=>c.id===id);
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const save=()=>localStorage.setItem('uzaki_data',JSON.stringify(DB));
+function colorFor(n){let h=0;for(const c of(n||''))h=(h*31+c.charCodeAt(0))>>>0;return COLORS[h%COLORS.length]}
+function memberNames(chat){return chat.members.map(getChar).filter(Boolean).map(c=>c.name).join(', ')}
+let toastTimer;
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),3000)}
+function modal(h){$('#overlay').classList.add('show');$('#modal').innerHTML=h}
+function closeModal(){$('#overlay').classList.remove('show')}
+
+/* ---------- VIEWS ---------- */
+function render(){renderSidebar();
+ if(state.view.t==='chars')renderCharsView();else if(state.view.t==='chat')renderChatView(state.view.id)}
+
+function renderSidebar(){
+ $('#tabChars').classList.toggle('active',state.tab==='chars');
+ $('#tabChats').classList.toggle('active',state.tab==='chats');
+ const l=$('#sideList');
+ if(state.tab==='chars'){
+  l.innerHTML=DB.characters.length?DB.characters.map(c=>`
+   <div class="srow" data-act="quick-chat" data-id="${c.id}">
+    <div class="avatar" style="background:${colorFor(c.name)}">${c.emoji}</div>
+    <div><div class="sname">${esc(c.name)}</div><div class="ssub">${esc(c.tagline||'')}</div></div></div>`).join('')
+  :`<div class="side-empty">No characters yet.<br>Create one to begin.</div>`;
+ }else{
+  l.innerHTML=DB.chats.length?DB.chats.map(c=>{
+   const last=c.messages[c.messages.length-1];
+   return `<div class="srow" data-act="open-chat" data-id="${c.id}">
+    <div class="avatar" style="background:${c.type==='group'?'#2a2f40':colorFor(c.name)}">${c.type==='group'?'👥':(c.emoji||'💬')}</div>
+    <div><div class="sname">${esc(c.name)}</div><div class="ssub">${last?esc(last.text.slice(0,42)):'New chat'}</div></div></div>`}).join('')
+  :`<div class="side-empty">No chats yet.<br>Pick a character or make a group.</div>`;}}
+
+function renderCharsView(){
+ const cs=DB.characters;
+ $('#main').innerHTML=`
+  <div class="page-head">
+   <button class="icon-btn menu-btn" data-act="menu">☰</button>
+   <h2>Characters <span class="count">${cs.length}</span></h2>
+   <button class="btn btn-primary sm" data-act="new-char">＋ New Character</button></div>
+  ${cs.length?`<div class="grid">${cs.map(c=>`
+   <div class="card">
+    <div class="avatar big" style="background:${colorFor(c.name)}">${c.emoji}</div>
+    <div class="cname">${esc(c.name)}</div>
+    <div class="ctag">${esc(c.tagline||'Roleplay character')}</div>
+    <div class="crow">
+     <button class="btn btn-primary sm" data-act="quick-chat" data-id="${c.id}">Chat</button>
+     <button class="icon-btn" data-act="edit-char" data-id="${c.id}">✏️</button>
+     <button class="icon-btn" data-act="del-char" data-id="${c.id}">🗑</button></div></div>`).join('')}</div>`
+ :`<div class="empty"><div class="empty-emoji">✨</div><h3>No characters yet</h3>
+    <p>This is your world — you decide who lives in it.<br>Create your first character to start.</p>
+    <button class="btn btn-primary" data-act="new-char">＋ Create your first character</button></div>`}`}
+
+function renderChatView(id){
+ const chat=getChat(id);
+ if(!chat){state.view={t:'chars'};return renderCharsView()}
+ $('#main').innerHTML=`
+  <div class="chat-head">
+   <button class="icon-btn menu-btn" data-act="menu">☰</button>
+   <div class="ch-title"><b>${esc(chat.name)}</b><small>${chat.type==='group'?esc(memberNames(chat)||'group'):'1-on-1 chat'}</small></div>
+   <button class="icon-btn" data-act="del-chat" data-id="${chat.id}">🗑</button>
+   <button class="icon-btn" data-act="back">←</button></div>
+  <div class="messages" id="messages"></div>
+  <div class="inputbar">
+   <textarea id="msgInput" rows="1" placeholder="Type a message..."></textarea>
+   <button class="btn btn-primary send" data-act="send">➤</button></div>`;
+ renderMessages(chat);
+ const inp=$('#msgInput');inp.focus();
+ inp.addEventListener('input',()=>{inp.style.height='auto';inp.style.height=Math.min(inp.scrollHeight,120)+'px'})}
+
+function renderMessages(chat){
+ const box=$('#messages');if(!box)return;
+ box.innerHTML=chat.messages.map(m=>m.role==='user'
+  ?`<div class="row user"><div class="bubble">${esc(m.text)}</div></div>`
+  :`<div class="row"><div class="avatar" style="background:${colorFor(m.name)}">${m.emoji||'🙂'}</div>
+     <div class="bubble"><div class="who">${esc(m.name)}</div>${esc(m.text)}</div></div>`).join('');
+ box.scrollTop=box.scrollHeight}
+
+/* ---------- CHAT LOGIC ---------- */
+function openSingleChat(cid){
+ const ch=getChar(cid);if(!ch)return;
+ let chat=DB.chats.find(c=>c.type==='single'&&c.members[0]===cid);
+ if(!chat){
+  chat={id:uid(),type:'single',name:ch.name,emoji:ch.emoji,members:[cid],messages:[]};
+  if(ch.greeting)chat.messages.push({role:'char',charId:cid,name:ch.name,emoji:ch.emoji,text:ch.greeting,time:Date.now()});
+  DB.chats.unshift(chat);save()}
+ $('#sidebar').classList.remove('open');
+ state.view={t:'chat',id:chat.id};render()}
+
+function send(){
+ const inp=$('#msgInput');if(!inp)return;
+ const text=inp.value.trim();if(!text)return;
+ const chat=getChat(state.view.id);if(!chat)return;
+ chat.messages.push({role:'user',text,time:Date.now()});
+ save();inp.value='';inp.style.height='auto';
+ renderMessages(chat);
+ respondSequence(chat,pickResponders(chat,text),0,text)}
+
+function pickResponders(chat,text){
+ if(chat.type==='single')return[chat.members[0]];
+ const lower=text.toLowerCase();
+ const mentioned=chat.members.filter(id=>{const c=getChar(id);return c&&lower.includes(c.name.toLowerCase())});
+ if(mentioned.length)return mentioned.slice(0,2);
+ const pool=[...chat.members].sort(()=>Math.random()-.5);
+ return pool.slice(0,Math.random()<.6?1:2)}
+
+async function respondSequence(chat,ids,i,userText){
+ if(i>=ids.length)return;
+ const ch=getChar(ids[i]);
+ if(!ch)return respondSequence(chat,ids,i+1,userText);
+ showTyping(ch);
+ let reply;
+ try{reply=await aiReply(chat,ch,userText)}
+ catch(err){reply=demoReply(ch,userText);toast('AI connection failed — used built-in reply ('+err.message+')')}
+ hideTyping();
+ chat.messages.push({role:'char',charId:ch.id,name:ch.name,emoji:ch.emoji,text:reply,time:Date.now()});
+ save();
+ if(state.view.t==='chat'&&state.view.id===chat.id)renderMessages(chat);
+ respondSequence(chat,ids,i+1,userText)}
+
+function showTyping(ch){
+ const box=$('#messages');if(!box)return;
+ const d=document.createElement('div');d.className='row';d.id='typing';
+ d.innerHTML=`<div class="avatar" style="background:${colorFor(ch.name)}">${ch.emoji}</div>
+  <div class="bubble"><div class="who">${esc(ch.name)}</div><span class="dots"><i></i><i></i><i></i></span></div>`;
+ box.appendChild(d);box.scrollTop=box.scrollHeight}
+function hideTyping(){const t=$('#typing');if(t)t.remove()}
+
+/* ---------- REPLIES ---------- */
+function demoReply(ch,userText){
+ const t=(userText||'').trim();
+ if(!t)return "Well? Don't go quiet on me now.";
+ const topic=t.length>50?t.slice(0,47)+'…':t;
+ const T=[
+  `${topic}? Now that's interesting — tell me more.`,
+  `Hmm, I hear you. ${topic}... let me think about that for a sec.`,
+  `You brought up ${topic}? Funny, I was just thinking about something like that.`,
+  `Okay but what's the story behind ${topic}? I need details.`,
+  `I like where your head's at. So — ${topic}, huh?`,
+  `That's a take. Let me ask you this though: why ${topic}?`,
+  `Ha! You always come to me with the good stuff. ${topic} it is.`,
+  `Alright, I'm listening. Say more about ${topic}.`,
+  `Interesting... and how does that make you feel?`,
+  `Look, ${topic} is serious business. Luckily, so am I.`,
+  `You know me — I could talk about ${topic} all day.`,
+  `Ooh. Say that again but slower. ...Okay, now explain ${topic} properly.`];
+ return T[Math.floor(Math.random()*T.length)]}
+
+function systemPrompt(chat,ch){
+ const others=chat.members.filter(x=>x!==ch.id).map(x=>getChar(x)?.name).filter(Boolean);
+ let p=`You are "${ch.name}" in a roleplay chat.`;
+ if(ch.personality)p+=` Your personality: ${ch.personality}.`;
+ p+=chat.type==='group'
+  ?` You are in a group chat with ${others.join(', ')} and the user. Only speak as ${ch.name}, keep it natural.`
+  :` You are chatting one-on-one with the user.`;
+ p+=` Stay fully in character. Keep replies short (1-4 sentences). Never mention being an AI.`;
+ return p}
+
+async function aiReply(chat,ch,userText){
+ const s=DB.settings;
+ if(s.provider==='none'||!s.apiKey){await sleep(500+Math.random()*1000);return demoReply(ch,userText)}
+ const sys=systemPrompt(chat,ch);
+ const ctx=chat.messages.slice(-20).map(m=>m.role==='user'
+  ?{role:'user',text:m.text}
+  :{role:'model',text:(chat.type==='group'?m.name+': ':'')+m.text});
+ if(s.provider==='openai'){
+  const r=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',
+   headers:{'Content-Type':'application/json','Authorization':'Bearer '+s.apiKey},
+   body:JSON.stringify({model:s.model||'gpt-4o-mini',
+    messages:[{role:'system',content:sys},...ctx.map(m=>({role:m.role==='user'?'user':'assistant',content:m.text}))]})});
+  if(!r.ok)throw new Error('HTTP '+r.status);
+  const d=await r.json();return d.choices[0].message.content.trim()}
+ if(s.provider==='gemini'){
+  const model=s.model||'gemini-2.0-flash';
+  const r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(s.apiKey)}`,
+   {method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({systemInstruction:{parts:[{text:sys}]},
+     contents:ctx.map(m=>({role:m.role,parts:[{text:m.text}]}))})});
+  if(!r.ok){const e=await r.json().catch(()=>null);throw new Error(e?.error?.message||('HTTP '+r.status))}
+  const d=await r.json();
+  const t=d.candidates?.[0]?.content?.parts?.map(p=>p.text||'').join('')||'';
+  if(!t)throw new Error('Empty response');
+  return t.trim()}
+ return demoReply(ch,userText)}
+
+/* ---------- MODALS ---------- */
+function openCharModal(id){
+ const c=id?getChar(id):null;
+ pickedEmoji=c?c.emoji:EMOJIS[Math.floor(Math.random()*EMOJIS.length)];
+ modal(`<h2>${c?'Edit Character':'New Character'}</h2>
+  <div class="emoji-grid">${EMOJIS.map(e=>`<button class="eg ${e===pickedEmoji?'sel':''}" data-act="pick-emoji" data-emoji="${e}">${e}</button>`).join('')}</div>
+  <input id="cName" placeholder="Name *" value="${c?esc(c.name):''}">
+  <input id="cTag" placeholder="Tagline — one line about them" value="${c?esc(c.tagline||''):''}">
+  <textarea id="cPers" placeholder="Personality — how do they act, talk? What do they like?">${c?esc(c.personality||''):''}</textarea>
+  <textarea id="cGreet" placeholder="Their first message when a chat starts">${c?esc(c.greeting||''):''}</textarea>
+  <div class="mrow"><button class="btn btn-ghost" data-act="close-modal">Cancel</button>
+  <button class="btn btn-primary" data-act="save-char" data-id="${c?c.id:''}">Save</button></div>`)}
+
+function saveChar(id){
+ const name=$('#cName').value.trim();
+ if(!name){toast('Give your character a name!');return}
+ const data={name,emoji:pickedEmoji,tagline:$('#cTag').value.trim(),
+  personality:$('#cPers').value.trim(),greeting:$('#cGreet').value.trim()};
+ if(id)Object.assign(getChar(id),data);
+ else DB.characters.push({id:uid(),...data});
+ save();closeModal();render();toast(id?'Character updated.':'Character created! 🎉')}
+
+function openGroupModal(){
+ if(DB.characters.length<2){toast('You need at least 2 characters to make a group.');return}
+ modal(`<h2>New Group Chat</h2>
+  <input id="gName" placeholder="Group name (e.g. The Tavern)">
+  <p class="flabel">Pick members (2 or more):</p>
+  <div class="picklist">${DB.characters.map(c=>`
+   <label class="pickrow"><input type="checkbox" value="${c.id}">
+   <span class="avatar sm2" style="background:${colorFor(c.name)}">${c.emoji}</span>${esc(c.name)}</label>`).join('')}</div>
+  <div class="mrow"><button class="btn btn-ghost" data-act="close-modal">Cancel</button>
+  <button class="btn btn-primary" data-act="create-group">Create Group</button></div>`)}
+
+function createGroup(){
+ const name=$('#gName').value.trim()||'Group Chat';
+ const ids=[...document.querySelectorAll('.picklist input:checked')].map(i=>i.value);
+ if(ids.length<2){toast('Pick at least 2 characters.');return}
+ const chat={id:uid(),type:'group',name,members:ids,messages:[]};
+ ids.forEach(cid=>{const c=getChar(cid);
+  if(c&&c.greeting)chat.messages.push({role:'char',charId:cid,name:c.name,emoji:c.emoji,text:c.greeting,time:Date.now()})});
+ DB.chats.unshift(chat);save();closeModal();
+ $('#sidebar').classList.remove('open');
+ state.view={t:'chat',id:chat.id};render()}
+
+function openSettings(){
+ const s=DB.settings;
+ modal(`<h2>⚙ Settings</h2>
+  <p class="flabel">Character brains (100% optional)</p>
+  <select id="sProv">
+   <option value="none"${s.provider==='none'?' selected':''}>Built-in responses — zero setup</option>
+   <option value="openai"${s.provider==='openai'?' selected':''}>OpenAI — real AI</option>
+   <option value="gemini"${s.provider==='gemini'?' selected':''}>Google Gemini — real AI, free tier</option></select>
+  <input id="sKey" type="password" placeholder="API key (only if you chose a real AI)" value="${esc(s.apiKey||'')}">
+  <input id="sModel" placeholder="Model name (leave empty for default)" value="${esc(s.model||'')}">
+  <p class="hint">Uzaki works fully without any of this. If you ever want smarter replies, paste a key and the characters come alive — nothing else to set up.</p>
+  <div class="mrow"><button class="btn btn-ghost" data-act="close-modal">Cancel</button>
+  <button class="btn btn-primary" data-act="save-settings">Save</button></div>`)}
+
+function deleteChar(id){
+ const c=getChar(id);if(!c)return;
+ if(!confirm(`Delete ${c.name}? Their chats will be removed too.`))return;
+ DB.characters=DB.characters.filter(x=>x.id!==id);
+ DB.chats=DB.chats.filter(ch=>{
+  if(ch.type==='single')return ch.members[0]!==id;
+  ch.members=ch.members.filter(m=>m!==id);
+  return ch.members.length>=1});
+ save();
+ if(state.view.t==='chat')state.view={t:'chars'};
+ render();toast('Character deleted.')}
+
+function deleteChat(id){
+ if(!confirm('Delete this chat?'))return;
+ DB.chats=DB.chats.filter(c=>c.id!==id);save();
+ if(state.view.t==='chat'&&state.view.id===id)state.view={t:'chars'};
+ render();toast('Chat deleted.')}
+
+/* ---------- EVENTS ---------- */
+document.addEventListener('click',e=>{
+ const el=e.target.closest('[data-act]');if(!el)return;
+ switch(el.dataset.act){
+  case 'new-char':openCharModal();break;
+  case 'edit-char':openCharModal(el.dataset.id);break;
+  case 'save-char':saveChar(el.dataset.id||null);break;
+  case 'del-char':deleteChar(el.dataset.id);break;
+  case 'quick-chat':openSingleChat(el.dataset.id);break;
+  case 'open-chat':$('#sidebar').classList.remove('open');state.view={t:'chat',id:el.dataset.id};render();break;
+  case 'del-chat':deleteChat(el.dataset.id);break;
+  case 'back':state.view={t:'chars'};render();break;
+  case 'menu':$('#sidebar').classList.toggle('open');break;
+  case 'new-group':openGroupModal();break;
+  case 'create-group':createGroup();break;
+  case 'settings':openSettings();break;
+  case 'save-settings':
+   DB.settings={provider:$('#sProv').value,apiKey:$('#sKey').value.trim(),model:$('#sModel').value.trim()};
+   save();closeModal();toast('Settings saved.');break;
+  case 'send':send();break;
+  case 'tab-chars':state.tab='chars';render();break;
+  case 'tab-chats':state.tab='chats';render();break;
+  case 'pick-emoji':
+   pickedEmoji=el.dataset.emoji;
+   document.querySelectorAll('.eg').forEach(b=>b.classList.toggle('sel',b.dataset.emoji===pickedEmoji));break;
+  case 'close-modal':closeModal();break}});
+$('#overlay').addEventListener('click',e=>{if(e.target.id==='overlay')closeModal()});
+document.addEventListener('keydown',e=>{
+ if(e.key==='Escape')closeModal();
+ if(e.key==='Enter'&&e.target.id==='msgInput'&&!e.shiftKey){e.preventDefault();send()}});
+render();
+</script>
+</body>
+</html>
+```
